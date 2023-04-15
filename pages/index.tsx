@@ -1,12 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { Box, Paper, Button, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Button,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import ReactMarkdown from "react-markdown";
 
 import styles from "../styles/Home.module.css";
+import styled from "@emotion/styled";
 
 export default function Home() {
   const [userInput, setUserInput] = useState("");
@@ -16,6 +23,22 @@ export default function Home() {
     {
       message: "Hi there! How can I help?",
       type: "apiMessage",
+    },
+  ]);
+
+  const [currentIntegration, setCurrentIntegration] = useState(null);
+  const [integrations, setIntegrations] = useState([
+    {
+      name: "Google Calendar",
+      description: "Schedule meetings with your team",
+      image: "/GoogleCal.png",
+      link: "https://www.google.com/calendar",
+    },
+    {
+      name: "Intercom",
+      description: "Chat with your customers",
+      image: "/intercom.png",
+      link: "https://www.intercom.com/",
     },
   ]);
 
@@ -113,135 +136,150 @@ export default function Home() {
     }
   }, [messages]);
 
+  const ContentWrapper = styled.div`
+    padding: 10px;
+    font-weight: bold;
+    background-color: #000000;
+    color: #ececf1;
+    border-radius: 10px;
+  `;
+
+  const Integration = function (props: { integration: any }) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          borderTop: "2px solid white",
+          marginTop: "10px",
+          paddingTop: "10px",
+        }}
+      >
+        <Image
+          src={props.integration.image}
+          width={50}
+          height={50}
+          alt={props.integration.name}
+        />
+        <Button
+          variant="contained"
+          sx={{ marginLeft: "15px" }}
+          onClick={() => setCurrentIntegration(props.integration.name)}
+        >
+          {props.integration.name}
+        </Button>
+      </Box>
+    );
+  };
+
   return (
     <>
       <Head>
         <title>FlyDocs</title>
       </Head>
 
-      <Grid xs={12} m={12} sx={{ textAlign: "center", margin: 0 }}>
-        <h1>Hi team!</h1>
-      </Grid>
-
       <Grid xs={12} md={4}>
-        <Paper sx={{ padding: "10px", backgroundColor: "blue" }} elevation={3}>
-          <h3>Integrations</h3>
-        </Paper>
+        <ContentWrapper>
+          <Typography variant="h5">Integrations</Typography>
+          {integrations.map((integration, idx) => {
+            return <Integration key={idx} integration={integration} />;
+          })}
+        </ContentWrapper>
       </Grid>
 
       <Grid xs={12} md={8}>
-        <Paper sx={{ padding: "10px", backgroundColor: "red" }} elevation={3}>
-          <h3>Chat</h3>
-          <div className={styles.cloud}>
-            <div ref={messageListRef} className={styles.messagelist}>
-              {messages.map((message, index) => {
-                return (
-                  // The latest message sent by the user will be animated while waiting for a response
-                  <div
-                    key={index}
-                    className={
-                      message.type === "userMessage" &&
-                      loading &&
-                      index === messages.length - 1
-                        ? styles.usermessagewaiting
-                        : message.type === "apiMessage"
-                        ? styles.apimessage
-                        : styles.usermessage
-                    }
-                  >
-                    {/* Display the correct icon depending on the message type */}
-                    {message.type === "apiMessage" ? (
-                      <Image
-                        src="/parroticon.png"
-                        alt="AI"
-                        width="30"
-                        height="30"
-                        className={styles.boticon}
-                        priority={true}
-                      />
-                    ) : (
-                      <Image
-                        src="/usericon.png"
-                        alt="Me"
-                        width="30"
-                        height="30"
-                        className={styles.usericon}
-                        priority={true}
-                      />
-                    )}
-                    <div className={styles.markdownanswer}>
-                      {/* Messages are being rendered in Markdown format */}
-                      <ReactMarkdown linkTarget={"_blank"}>
-                        {message.message}
-                      </ReactMarkdown>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div className={styles.center}>
-            <div className={styles.cloudform} style={{width: "100%"}}>
-              <form onSubmit={handleSubmit}>
-                <textarea style={{width: "100%"}}
-                  disabled={loading}
-                  onKeyDown={handleEnter}
-                  ref={textAreaRef}
-                  autoFocus={false}
-                  rows={1}
-                  maxLength={512}
-                  type="text"
-                  id="userInput"
-                  name="userInput"
-                  placeholder={
-                    loading
-                      ? "Waiting for response..."
-                      : "Type your question..."
+        <div className={styles.cloud}>
+          <div ref={messageListRef} className={styles.messagelist}>
+            {messages.map((message, index) => {
+              return (
+                // The latest message sent by the user will be animated while waiting for a response
+                <div
+                  key={index}
+                  className={
+                    message.type === "userMessage" &&
+                    loading &&
+                    index === messages.length - 1
+                      ? styles.usermessagewaiting
+                      : message.type === "apiMessage"
+                      ? styles.apimessage
+                      : styles.usermessage
                   }
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                  className={styles.textarea}
-                />
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={styles.generatebutton}
                 >
-                  {loading ? (
-                    <div className={styles.loadingwheel}>
-                      <CircularProgress color="inherit" size={20} />{" "}
-                    </div>
+                  {/* Display the correct icon depending on the message type */}
+                  {message.type === "apiMessage" ? (
+                    <Image
+                      src="/flydocs_logo.png"
+                      alt="AI"
+                      width="45"
+                      height="45"
+                      className={styles.boticon}
+                      priority={true}
+                    />
                   ) : (
-                    // Send icon SVG in input field
-                    <svg
-                      viewBox="0 0 20 20"
-                      className={styles.svgicon}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                    </svg>
+                    <Image
+                      src="/usericon.png"
+                      alt="Me"
+                      width="30"
+                      height="30"
+                      className={styles.usericon}
+                      priority={true}
+                    />
                   )}
-                </button>
-              </form>
-            </div>
-            <div className={styles.footer}>
-              <p>
-                Powered by{" "}
-                <a
-                  href="https://github.com/hwchase17/langchain"
-                  target="_blank"
-                >
-                  LangChain
-                </a>
-                . Built by{" "}
-                <a href="https://twitter.com/chillzaza_" target="_blank">
-                  Zahid
-                </a>
-                .
-              </p>
-            </div>
+                  <div className={styles.markdownanswer}>
+                    {/* Messages are being rendered in Markdown format */}
+                    <ReactMarkdown linkTarget={"_blank"}>
+                      {message.message}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </Paper>
+        </div>
+        <div className={styles.center}>
+          <div className={styles.cloudform} style={{ width: "100%" }}>
+            <form onSubmit={handleSubmit}>
+              <textarea
+                style={{ width: "100%" }}
+                disabled={loading}
+                onKeyDown={handleEnter}
+                ref={textAreaRef}
+                autoFocus={false}
+                rows={1}
+                maxLength={512}
+                type="text"
+                id="userInput"
+                name="userInput"
+                placeholder={
+                  loading ? "Waiting for response..." : "Type your question..."
+                }
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                className={styles.textarea}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className={styles.generatebutton}
+              >
+                {loading ? (
+                  <div className={styles.loadingwheel}>
+                    <CircularProgress color="inherit" size={20} />{" "}
+                  </div>
+                ) : (
+                  // Send icon SVG in input field
+                  <svg
+                    viewBox="0 0 20 20"
+                    className={styles.svgicon}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                  </svg>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
       </Grid>
     </>
   );
