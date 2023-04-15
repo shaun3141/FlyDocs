@@ -32,6 +32,14 @@ export default function Home() {
   const [currentUserToken, setCurrentUserToken] = useState(null);
   const [integrations, setIntegrations] = useState([
     {
+      name: "Twilio",
+      integrationKey: "twilio",
+      description: "send an sms",
+      image: "/twilio.png",
+      link: "https://www.twilio.com/",
+      token: "",
+    },
+    {
       name: "Spotify",
       integrationKey: "spotify",
       description: "Listen to music",
