@@ -65,7 +65,7 @@ export default function Navbar(props: Props) {
       <List>
         {navItems.map((item, idx) => (
           <Link
-            key={item.url}
+            key={item.url + idx}
             href={item.url}
             target={item.openInNewTab ? "_blank" : "_self"}
             style={{ textDecoration: "none", color: "inherit" }}

@@ -38,6 +38,7 @@ export default function Home() {
       image: "/spotify.png",
       link: "https://www.spotify.com/",
       token: "",
+      useNango: true,
     },
     {
       name: "Github",
@@ -46,6 +47,7 @@ export default function Home() {
       image: "/github_white.png",
       link: "https://www.github.com/",
       token: "",
+      useNango: true,
     },
     {
       name: "Google Calendar",
@@ -54,6 +56,7 @@ export default function Home() {
       image: "/GoogleCal.png",
       link: "https://www.google.com/calendar",
       token: "",
+      useNango: true,
     },
     {
       name: "Intercom",
@@ -62,6 +65,16 @@ export default function Home() {
       image: "/intercom.png",
       link: "https://www.intercom.com/",
       token: "",
+      useNango: false,
+    },
+    {
+      name: "Twilio",
+      integrationKey: "twilio",
+      description: "Send a text message",
+      image: "/twilio.svg",
+      link: "https://www.intercom.com/",
+      token: "",
+      useNango: false,
     },
   ]);
 
@@ -160,6 +173,11 @@ export default function Home() {
   };
 
   const triggerAuth = async (integration) => {
+    if (integration.useNango === false) {
+      setCurrentIntegration(integration);
+      return;
+    }
+
     let nango = new Nango({
       publicKey: "defb0e4d-fca5-4e26-b7d9-d5b59dd72d66",
     });
