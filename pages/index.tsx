@@ -106,15 +106,24 @@ export default function Home() {
       { message: userInput, type: "userMessage" },
     ]);
 
-    const nango = new NangoNode({
-      secretKey: "4a7f6f02-c9aa-4b14-b644-c833ec07bbfd",
-    });
+    let access_token;
+    if (currentIntegration === "intercom") {
+      // Somehting
+      access_token = "";
+    } else if (currentIntegration === "twilio") {
+      // Something
+      access_token = `${process.env.TWILIO_API_KEY}`;
+    } else {
+      const nango = new NangoNode({
+        secretKey: "4a7f6f02-c9aa-4b14-b644-c833ec07bbfd",
+      });
 
-    let access_token = await nango.getToken(
-      currentResult.providerConfigKey,
-      currentResult.connectionId
-    );
-    access_token = `Bearer ${access_token}`;
+      access_token = await nango.getToken(
+        currentResult.providerConfigKey,
+        currentResult.connectionId
+      );
+      access_token = `Bearer ${access_token}`;
+    }
 
     // Send user question and history to API
     // currently fails because of github token max length issue :/
