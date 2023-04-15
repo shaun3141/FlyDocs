@@ -89,7 +89,11 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question: userInput, history: history }),
+      body: JSON.stringify({
+        question: userInput,
+        history: history,
+        currentIntegration: currentIntegration,
+      }),
     });
 
     if (!response.ok) {
