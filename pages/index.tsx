@@ -128,10 +128,10 @@ export default function Home() {
     ]);
 
     let access_token;
-    if (currentIntegration === "intercom") {
+    if (currentIntegration.name === "intercom") {
       // Somehting
       access_token = "";
-    } else if (currentIntegration === "twilio") {
+    } else if (currentIntegration.name === "twilio") {
       // Something
       access_token = `${process.env.TWILIO_API_KEY}`;
     } else {
