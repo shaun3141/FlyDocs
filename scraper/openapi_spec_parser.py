@@ -1,14 +1,36 @@
-import re
-import json
-import datetime
-import uuid
-
-import llm
-import prompt as PromptEngine
-
-import pinecone
-import openai
 import dotenv
+import openai
+import pinecone
+import prompt as PromptEngine
+import llm
+import uuid
+import datetime
+import yaml
+import json
+import re
+import os
+from langchain.agents.agent_toolkits.openapi.spec import reduce_openapi_spec
+from langchain.requests import RequestsWrapper
+from langchain.llms.openai import OpenAI
+from langchain.agents.agent_toolkits.openapi import planner
+os.environ["OPENAI_API_KEY"] = dotenv.get_key(
+    ".env", 'OPENAI_API_KEY')
+
+
+llm = OpenAI(temperature=1.0, max_tokens=3000)
+
+with open("docs/openapi.yaml") as f:
+    raw_docs_api_spec = yaml.load(f, Loader=yaml.Loader)
+docs_api_spec = reduce_openapi_spec(raw_docs_api_spec)
+
+requests_wrapper = RequestsWrapper(headers={
+    'Authorization': f'Bearer {"abc"}'
+})
+
+docs_agent = planner.create_openapi_agent(docs_api_spec, requests_wrapper, llm)
+user_query = "Find me users in Paris and add the 'Paris' tag to them"
+docs_agent.run(user_query)
+# Get API credentials.
 
 
 def get_token_usage(response):
@@ -92,6 +114,15 @@ def process_oas(oasDefinition):
             ## Tags
             {tags}
             """
+
+            endpointDescription = {}
+            endpointDescription["url"] = BASE_URL + path
+            endpointDescription["method"] = method
+            endpointDescription["description"] = description
+            endpointDescription["parameters"] = parameters
+            endpointDescription["requestBody"] = request_body
+            endpointDescription["responses"] = responses
+            endpointDescription["tags"] = tags
 
             # Preprocess markdown content
             preprocessed_chunks.append(markdown_content)
