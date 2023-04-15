@@ -1,0 +1,530 @@
+{
+  "doc": {
+    "metadata": { "image": [], "title": "", "description": "" },
+    "api": {
+      "method": "post",
+      "url": "/v1/pages",
+      "auth": "never",
+      "results": {
+        "codes": [
+          {
+            "name": "",
+            "code": "{\n  \"object\": \"page\",\n  \"id\": \"59833787-2cf9-4fdf-8782-e53db20768a5\",\n  \"created_time\": \"2022-03-01T19:05:00.000Z\",\n  \"last_edited_time\": \"2022-07-06T19:16:00.000Z\",\n  \"created_by\": {\n    \"object\": \"user\",\n    \"id\": \"ee5f0f84-409a-440f-983a-a5315961c6e4\"\n  },\n  \"last_edited_by\": {\n    \"object\": \"user\",\n    \"id\": \"ee5f0f84-409a-440f-983a-a5315961c6e4\"\n  },\n  \"cover\": {\n    \"type\": \"external\",\n    \"external\": {\n      \"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg\"\n    }\n  },\n  \"icon\": {\n    \"type\": \"emoji\",\n    \"emoji\": \"🥬\"\n  },\n  \"parent\": {\n    \"type\": \"database_id\",\n    \"database_id\": \"d9824bdc-8445-4327-be8b-5b47500af6ce\"\n  },\n  \"archived\": false,\n  \"properties\": {\n    \"Store availability\": {\n      \"id\": \"%3AUPp\"\n    },\n    \"Food group\": {\n      \"id\": \"A%40Hk\"\n    },\n    \"Price\": {\n      \"id\": \"BJXS\"\n    },\n    \"Responsible Person\": {\n      \"id\": \"Iowm\"\n    },\n    \"Last ordered\": {\n      \"id\": \"Jsfb\"\n    },\n    \"Cost of next trip\": {\n      \"id\": \"WOd%3B\"\n    },\n    \"Recipes\": {\n      \"id\": \"YfIu\"\n    },\n    \"Description\": {\n      \"id\": \"_Tc_\"\n    },\n    \"In stock\": {\n      \"id\": \"%60%5Bq%3F\"\n    },\n    \"Number of meals\": {\n      \"id\": \"zag~\"\n    },\n    \"Photo\": {\n      \"id\": \"%7DF_L\"\n    },\n    \"Name\": {\n      \"id\": \"title\"\n    }\n  },\n  \"url\": \"https://www.notion.so/Tuscan-Kale-598337872cf94fdf8782e53db20768a5\"\n}",
+            "language": "json",
+            "status": 200
+          },
+          { "name": "", "code": "{}", "language": "json", "status": 400 },
+          {
+            "code": "{\n    \"object\": \"error\",\n    \"status\": 404,\n    \"code\": \"object_not_found\",\n    \"message\": \"Could not find page with ID: 4cc3b486-0b48-4cfe-8ce9-67c47100eb6a. Make sure the relevant pages and databases are shared with your integration.\"\n}",
+            "language": "json",
+            "status": 404
+          },
+          {
+            "code": "{\n  \"object\": \"error\",\n  \"status\": 429,\n  \"code\": \"rate_limited\",\n  \"message\": \"You have been rate limited. Please try again in a few minutes.\"\n}",
+            "language": "json",
+            "status": 429
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "parent",
+          "type": "json",
+          "enumValues": "",
+          "default": "",
+          "desc": "The parent page or database where the new page is inserted, represented as a JSON object with a `page_id` or `database_id` key, and the corresponding ID.",
+          "required": true,
+          "in": "body",
+          "ref": "",
+          "_id": "6099376a779379001622fa2c"
+        },
+        {
+          "name": "properties",
+          "type": "json",
+          "enumValues": "",
+          "default": "",
+          "desc": "The values of the page’s properties. If the `parent` is a database, then the schema must match the parent database’s properties. If the `parent` is a page, then the only valid object key is `title`.",
+          "required": true,
+          "in": "body",
+          "ref": "",
+          "_id": "6099390a53f3f7003329e43f"
+        },
+        {
+          "name": "children",
+          "type": "array_string",
+          "enumValues": "",
+          "default": "",
+          "desc": "The content to be rendered on the new page, represented as an array of [block objects](https://developers.notion.com/reference/block).",
+          "required": false,
+          "in": "body",
+          "ref": "",
+          "_id": "6099390a53f3f7003329e43e"
+        },
+        {
+          "name": "Notion-Version",
+          "type": "string",
+          "enumValues": "",
+          "default": "2022-06-28",
+          "desc": "",
+          "required": true,
+          "in": "header",
+          "ref": "",
+          "_id": "609c33225f7bf30038dfccb4"
+        },
+        {
+          "name": "icon",
+          "type": "json",
+          "enumValues": "",
+          "default": "",
+          "desc": "The icon of the new page. Either an [emoji object](https://developers.notion.com/reference/emoji-object) or an [external file object](https://developers.notion.com/reference/file-object)..",
+          "required": false,
+          "in": "body",
+          "ref": "",
+          "_id": "611ffc90e9cda00062e6365f"
+        },
+        {
+          "name": "cover",
+          "type": "json",
+          "enumValues": "",
+          "default": "",
+          "desc": "The cover image of the new page, represented as a [file object](https://developers.notion.com/reference/file-object).",
+          "required": false,
+          "in": "body",
+          "ref": "",
+          "_id": "611ffc90e9cda00062e6365e"
+        }
+      ],
+      "examples": {
+        "codes": [
+          {
+            "code": "const { Client } = require('@notionhq/client');\n\nconst notion = new Client({ auth: process.env.NOTION_API_KEY });\n\n(async () => {\n  const response = await notion.pages.create({\n    \"cover\": {\n        \"type\": \"external\",\n        \"external\": {\n            \"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg\"\n        }\n    },\n    \"icon\": {\n        \"type\": \"emoji\",\n        \"emoji\": \"🥬\"\n    },\n    \"parent\": {\n        \"type\": \"database_id\",\n        \"database_id\": \"d9824bdc-8445-4327-be8b-5b47500af6ce\"\n    },\n    \"properties\": {\n        \"Name\": {\n            \"title\": [\n                {\n                    \"text\": {\n                        \"content\": \"Tuscan kale\"\n                    }\n                }\n            ]\n        },\n        \"Description\": {\n            \"rich_text\": [\n                {\n                    \"text\": {\n                        \"content\": \"A dark green leafy vegetable\"\n                    }\n                }\n            ]\n        },\n        \"Food group\": {\n            \"select\": {\n                \"name\": \"🥬 Vegetable\"\n            }\n        }\n    },\n    \"children\": [\n        {\n            \"object\": \"block\",\n            \"heading_2\": {\n                \"rich_text\": [\n                    {\n                        \"text\": {\n                            \"content\": \"Lacinato kale\"\n                        }\n                    }\n                ]\n            }\n        },\n        {\n            \"object\": \"block\",\n            \"paragraph\": {\n                \"rich_text\": [\n                    {\n                        \"text\": {\n                            \"content\": \"Lacinato kale is a variety of kale with a long tradition in Italian cuisine, especially that of Tuscany. It is also known as Tuscan kale, Italian kale, dinosaur kale, kale, flat back kale, palm tree kale, or black Tuscan palm.\",\n                            \"link\": {\n                                \"url\": \"https://en.wikipedia.org/wiki/Lacinato_kale\"\n                            }\n                        },\n                        \"href\": \"https://en.wikipedia.org/wiki/Lacinato_kale\"\n                    }\n                ],\n                \"color\": \"default\"\n            }\n        }\n    ]\n});\n  console.log(response);\n})();",
+            "language": "javascript",
+            "name": "Notion SDK for JavaScript"
+          },
+          {
+            "code": "curl 'https://api.notion.com/v1/pages' \\\n  -H 'Authorization: Bearer '\"$NOTION_API_KEY\"'' \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Notion-Version: 2022-06-28\" \\\n  --data '{\n\t\"parent\": { \"database_id\": \"d9824bdc84454327be8b5b47500af6ce\" },\n  \"icon\": {\n  \t\"emoji\": \"🥬\"\n  },\n\t\"cover\": {\n\t\t\"external\": {\n\t\t\t\"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg\"\n\t\t}\n\t},\n\t\"properties\": {\n\t\t\"Name\": {\n\t\t\t\"title\": [\n\t\t\t\t{\n\t\t\t\t\t\"text\": {\n\t\t\t\t\t\t\"content\": \"Tuscan Kale\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t\"Description\": {\n\t\t\t\"rich_text\": [\n\t\t\t\t{\n\t\t\t\t\t\"text\": {\n\t\t\t\t\t\t\"content\": \"A dark green leafy vegetable\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t\"Food group\": {\n\t\t\t\"select\": {\n\t\t\t\t\"name\": \"Vegetable\"\n\t\t\t}\n\t\t},\n\t\t\"Price\": { \"number\": 2.5 }\n\t},\n\t\"children\": [\n\t\t{\n\t\t\t\"object\": \"block\",\n\t\t\t\"type\": \"heading_2\",\n\t\t\t\"heading_2\": {\n\t\t\t\t\"rich_text\": [{ \"type\": \"text\", \"text\": { \"content\": \"Lacinato kale\" } }]\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"object\": \"block\",\n\t\t\t\"type\": \"paragraph\",\n\t\t\t\"paragraph\": {\n\t\t\t\t\"rich_text\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\t\"text\": {\n\t\t\t\t\t\t\t\"content\": \"Lacinato kale is a variety of kale with a long tradition in Italian cuisine, especially that of Tuscany. It is also known as Tuscan kale, Italian kale, dinosaur kale, kale, flat back kale, palm tree kale, or black Tuscan palm.\",\n\t\t\t\t\t\t\t\"link\": { \"url\": \"https://en.wikipedia.org/wiki/Lacinato_kale\" }\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t]\n}'",
+            "language": "curl",
+            "name": null
+          }
+        ]
+      },
+      "apiSetting": "606ecc2cd9e93b0044cf6e47"
+    },
+    "swagger": { "path": "/v1/pages" },
+    "next": { "description": "", "pages": [] },
+    "algolia": {
+      "recordCount": 1,
+      "publishPending": false,
+      "updatedAt": "2023-02-07T01:25:40.107Z"
+    },
+    "title": "Create a page",
+    "icon": "",
+    "updates": [],
+    "type": "endpoint",
+    "slug": "post-page",
+    "excerpt": "",
+    "body": "[block:callout]\n{\n  \"type\": \"success\",\n  \"title\": \"Creates a new page that is a child of an existing page.\",\n  \"body\": \"`title` is the only valid property in the `properties` body param.\"\n}\n[/block]\n\n[block:callout]\n{\n  \"type\": \"success\",\n  \"title\": \"Creates a new page that is a child of an existing database.\",\n  \"body\": \"The keys of the `properties` object body param must match the parent [database's properties](https://developers.notion.com/reference/property-object).\"\n}\n[/block]\n\n[block:callout]\n{\n  \"type\": \"success\",\n  \"title\": \"Returns the new [page object](https://developers.notion.com/reference/page).\"\n}\n[/block]\n\n[block:callout]\n{\n  \"type\": \"warning\",\n  \"title\": \"Some page `properties` are not supported via the API.\",\n  \"body\": \"A request body that includes `rollup`, `created_by`, `created_time`, `last_edited_by`, or `last_edited_time` values in the properties object returns an error. These Notion-generated values cannot be created or updated via the API. If the `parent` contains any of these properties, then the new page’s corresponding values are automatically created.\"\n}\n[/block]\n\n[block:callout]\n{\n  \"type\": \"info\",\n  \"title\": \"Requirements\",\n  \"body\": \"Your integration must have [update content capabilities](https://developers.notion.com/reference/capabilities#content-capabilities) on the target parent page or database in order to call this endpoint. \\n\\nAttempting a query without update content capabilities returns an HTTP response with a 403 status code.\"\n}\n[/block]",
+    "order": 0,
+    "isReference": true,
+    "deprecated": false,
+    "hidden": false,
+    "sync_unique": "",
+    "link_url": "",
+    "link_external": false,
+    "previousSlug": "create-a-page",
+    "slugUpdatedAt": "2021-08-24T17:29:51.426Z",
+    "revision": 9,
+    "_id": "611ffc19e9237200478c6943",
+    "pendingAlgoliaPublish": false,
+    "createdAt": "2021-08-20T19:01:45.138Z",
+    "updatedAt": "2023-02-07T01:25:39.791Z",
+    "user": "63225766e05d1a0035636c9c",
+    "category": "6400ff91554b4f00339ec108",
+    "project": "6038057d9c4b200067ba3c9a",
+    "version": {
+      "version": "1",
+      "version_clean": "1.0.0",
+      "codename": "",
+      "is_stable": true,
+      "is_beta": false,
+      "is_hidden": false,
+      "is_deprecated": false,
+      "categories": [
+        "6038057d9c4b200067ba3ca1",
+        "6038057d9c4b200067ba3ca1",
+        "6038057d9c4b200067ba3ca7",
+        "606ecbe7d0dd5e006a232328",
+        "606ecc2cd9e93b0044cf6e49",
+        "606ece296489f10041de453b",
+        "608a8d9fe5369d007f57f5df",
+        "60912553c142ee00445df064",
+        "609125b25f2f7b0041ba0fcf",
+        "6091386ce2ca9200479fb438",
+        "609138831cefd7002e62bec1",
+        "6091389118d1f2001e86aac7",
+        "609138a28e8dc5007218ac09",
+        "60913f504f9a6f0044d5b337",
+        "62d1914a365c0c01cbddeff8",
+        "63c08d67f49d8500120d8610",
+        "63d9a0487f835300035ecd2d",
+        "63e1a445f013e600641ab1e3",
+        "63e1a4aea3fd800027e673ac",
+        "63e1a4fa6fec10005a5d0a24",
+        "6400fbc977074a0073427640",
+        "6400ff91554b4f00339ec108"
+      ],
+      "_id": "6038057d9c4b200067ba3c9f",
+      "project": "6038057d9c4b200067ba3c9a",
+      "releaseDate": "2021-02-25T20:15:57.171Z",
+      "createdAt": "2021-02-25T20:15:57.171Z",
+      "__v": 2
+    },
+    "__v": 38,
+    "parentDoc": "64010176614f120060058fd6",
+    "isApi": true,
+    "tutorials": [],
+    "id": "611ffc19e9237200478c6943"
+  },
+  "hideTOC": false,
+  "meta": {
+    "description": "Connect Notion pages and databases to the tools you use every day, creating powerful workflows.",
+    "hidden": false,
+    "title": "Create a page",
+    "type": "reference"
+  },
+  "oasDefinition": {
+    "openapi": "3.1.0",
+    "info": { "title": "Notion API", "version": "1" },
+    "servers": [{ "url": "https://api.notion.com" }],
+    "components": {
+      "securitySchemes": { "sec0": { "type": "oauth2", "flows": {} } }
+    },
+    "security": [{ "sec0": [] }],
+    "paths": {
+      "/v1/pages": {
+        "post": {
+          "summary": "Create a page",
+          "description": "",
+          "operationId": "post-page",
+          "parameters": [
+            {
+              "name": "Notion-Version",
+              "in": "header",
+              "required": true,
+              "schema": { "type": "string", "default": "2022-06-28" }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["parent", "properties"],
+                  "properties": {
+                    "parent": {
+                      "type": "string",
+                      "description": "The parent page or database where the new page is inserted, represented as a JSON object with a `page_id` or `database_id` key, and the corresponding ID.",
+                      "format": "json"
+                    },
+                    "properties": {
+                      "type": "string",
+                      "description": "The values of the page’s properties. If the `parent` is a database, then the schema must match the parent database’s properties. If the `parent` is a page, then the only valid object key is `title`.",
+                      "format": "json"
+                    },
+                    "children": {
+                      "type": "array",
+                      "description": "The content to be rendered on the new page, represented as an array of [block objects](https://developers.notion.com/reference/block).",
+                      "items": { "type": "string" }
+                    },
+                    "icon": {
+                      "type": "string",
+                      "description": "The icon of the new page. Either an [emoji object](https://developers.notion.com/reference/emoji-object) or an [external file object](https://developers.notion.com/reference/file-object)..",
+                      "format": "json"
+                    },
+                    "cover": {
+                      "type": "string",
+                      "description": "The cover image of the new page, represented as a [file object](https://developers.notion.com/reference/file-object).",
+                      "format": "json"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "200",
+              "content": {
+                "application/json": {
+                  "examples": {
+                    "Result": {
+                      "value": "{\n  \"object\": \"page\",\n  \"id\": \"59833787-2cf9-4fdf-8782-e53db20768a5\",\n  \"created_time\": \"2022-03-01T19:05:00.000Z\",\n  \"last_edited_time\": \"2022-07-06T19:16:00.000Z\",\n  \"created_by\": {\n    \"object\": \"user\",\n    \"id\": \"ee5f0f84-409a-440f-983a-a5315961c6e4\"\n  },\n  \"last_edited_by\": {\n    \"object\": \"user\",\n    \"id\": \"ee5f0f84-409a-440f-983a-a5315961c6e4\"\n  },\n  \"cover\": {\n    \"type\": \"external\",\n    \"external\": {\n      \"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg\"\n    }\n  },\n  \"icon\": {\n    \"type\": \"emoji\",\n    \"emoji\": \"🥬\"\n  },\n  \"parent\": {\n    \"type\": \"database_id\",\n    \"database_id\": \"d9824bdc-8445-4327-be8b-5b47500af6ce\"\n  },\n  \"archived\": false,\n  \"properties\": {\n    \"Store availability\": {\n      \"id\": \"%3AUPp\"\n    },\n    \"Food group\": {\n      \"id\": \"A%40Hk\"\n    },\n    \"Price\": {\n      \"id\": \"BJXS\"\n    },\n    \"Responsible Person\": {\n      \"id\": \"Iowm\"\n    },\n    \"Last ordered\": {\n      \"id\": \"Jsfb\"\n    },\n    \"Cost of next trip\": {\n      \"id\": \"WOd%3B\"\n    },\n    \"Recipes\": {\n      \"id\": \"YfIu\"\n    },\n    \"Description\": {\n      \"id\": \"_Tc_\"\n    },\n    \"In stock\": {\n      \"id\": \"%60%5Bq%3F\"\n    },\n    \"Number of meals\": {\n      \"id\": \"zag~\"\n    },\n    \"Photo\": {\n      \"id\": \"%7DF_L\"\n    },\n    \"Name\": {\n      \"id\": \"title\"\n    }\n  },\n  \"url\": \"https://www.notion.so/Tuscan-Kale-598337872cf94fdf8782e53db20768a5\"\n}"
+                    }
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "object": { "type": "string", "example": "page" },
+                      "id": {
+                        "type": "string",
+                        "example": "59833787-2cf9-4fdf-8782-e53db20768a5"
+                      },
+                      "created_time": {
+                        "type": "string",
+                        "example": "2022-03-01T19:05:00.000Z"
+                      },
+                      "last_edited_time": {
+                        "type": "string",
+                        "example": "2022-07-06T19:16:00.000Z"
+                      },
+                      "created_by": {
+                        "type": "object",
+                        "properties": {
+                          "object": { "type": "string", "example": "user" },
+                          "id": {
+                            "type": "string",
+                            "example": "ee5f0f84-409a-440f-983a-a5315961c6e4"
+                          }
+                        }
+                      },
+                      "last_edited_by": {
+                        "type": "object",
+                        "properties": {
+                          "object": { "type": "string", "example": "user" },
+                          "id": {
+                            "type": "string",
+                            "example": "ee5f0f84-409a-440f-983a-a5315961c6e4"
+                          }
+                        }
+                      },
+                      "cover": {
+                        "type": "object",
+                        "properties": {
+                          "type": { "type": "string", "example": "external" },
+                          "external": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string",
+                                "example": "https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "icon": {
+                        "type": "object",
+                        "properties": {
+                          "type": { "type": "string", "example": "emoji" },
+                          "emoji": { "type": "string", "example": "🥬" }
+                        }
+                      },
+                      "parent": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "database_id"
+                          },
+                          "database_id": {
+                            "type": "string",
+                            "example": "d9824bdc-8445-4327-be8b-5b47500af6ce"
+                          }
+                        }
+                      },
+                      "archived": {
+                        "type": "boolean",
+                        "example": false,
+                        "default": true
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "Store availability": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "%3AUPp" }
+                            }
+                          },
+                          "Food group": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "A%40Hk" }
+                            }
+                          },
+                          "Price": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "BJXS" }
+                            }
+                          },
+                          "Responsible Person": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "Iowm" }
+                            }
+                          },
+                          "Last ordered": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "Jsfb" }
+                            }
+                          },
+                          "Cost of next trip": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "WOd%3B" }
+                            }
+                          },
+                          "Recipes": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "YfIu" }
+                            }
+                          },
+                          "Description": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "_Tc_" }
+                            }
+                          },
+                          "In stock": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": "%60%5Bq%3F"
+                              }
+                            }
+                          },
+                          "Number of meals": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "zag~" }
+                            }
+                          },
+                          "Photo": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "%7DF_L" }
+                            }
+                          },
+                          "Name": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "example": "title" }
+                            }
+                          }
+                        }
+                      },
+                      "url": {
+                        "type": "string",
+                        "example": "https://www.notion.so/Tuscan-Kale-598337872cf94fdf8782e53db20768a5"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400",
+              "content": {
+                "application/json": {
+                  "examples": { "Result": { "value": "{}" } },
+                  "schema": { "type": "object", "properties": {} }
+                }
+              }
+            },
+            "404": {
+              "description": "404",
+              "content": {
+                "application/json": {
+                  "examples": {
+                    "Result": {
+                      "value": "{\n    \"object\": \"error\",\n    \"status\": 404,\n    \"code\": \"object_not_found\",\n    \"message\": \"Could not find page with ID: 4cc3b486-0b48-4cfe-8ce9-67c47100eb6a. Make sure the relevant pages and databases are shared with your integration.\"\n}"
+                    }
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "object": { "type": "string", "example": "error" },
+                      "status": {
+                        "type": "integer",
+                        "example": 404,
+                        "default": 0
+                      },
+                      "code": {
+                        "type": "string",
+                        "example": "object_not_found"
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Could not find page with ID: 4cc3b486-0b48-4cfe-8ce9-67c47100eb6a. Make sure the relevant pages and databases are shared with your integration."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "429": {
+              "description": "429",
+              "content": {
+                "application/json": {
+                  "examples": {
+                    "Result": {
+                      "value": "{\n  \"object\": \"error\",\n  \"status\": 429,\n  \"code\": \"rate_limited\",\n  \"message\": \"You have been rate limited. Please try again in a few minutes.\"\n}"
+                    }
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "object": { "type": "string", "example": "error" },
+                      "status": {
+                        "type": "integer",
+                        "example": 429,
+                        "default": 0
+                      },
+                      "code": { "type": "string", "example": "rate_limited" },
+                      "message": {
+                        "type": "string",
+                        "example": "You have been rate limited. Please try again in a few minutes."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "deprecated": false,
+          "security": [],
+          "x-readme": {
+            "code-samples": [
+              {
+                "language": "javascript",
+                "code": "const { Client } = require('@notionhq/client');\n\nconst notion = new Client({ auth: process.env.NOTION_API_KEY });\n\n(async () => {\n  const response = await notion.pages.create({\n    \"cover\": {\n        \"type\": \"external\",\n        \"external\": {\n            \"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg\"\n        }\n    },\n    \"icon\": {\n        \"type\": \"emoji\",\n        \"emoji\": \"🥬\"\n    },\n    \"parent\": {\n        \"type\": \"database_id\",\n        \"database_id\": \"d9824bdc-8445-4327-be8b-5b47500af6ce\"\n    },\n    \"properties\": {\n        \"Name\": {\n            \"title\": [\n                {\n                    \"text\": {\n                        \"content\": \"Tuscan kale\"\n                    }\n                }\n            ]\n        },\n        \"Description\": {\n            \"rich_text\": [\n                {\n                    \"text\": {\n                        \"content\": \"A dark green leafy vegetable\"\n                    }\n                }\n            ]\n        },\n        \"Food group\": {\n            \"select\": {\n                \"name\": \"🥬 Vegetable\"\n            }\n        }\n    },\n    \"children\": [\n        {\n            \"object\": \"block\",\n            \"heading_2\": {\n                \"rich_text\": [\n                    {\n                        \"text\": {\n                            \"content\": \"Lacinato kale\"\n                        }\n                    }\n                ]\n            }\n        },\n        {\n            \"object\": \"block\",\n            \"paragraph\": {\n                \"rich_text\": [\n                    {\n                        \"text\": {\n                            \"content\": \"Lacinato kale is a variety of kale with a long tradition in Italian cuisine, especially that of Tuscany. It is also known as Tuscan kale, Italian kale, dinosaur kale, kale, flat back kale, palm tree kale, or black Tuscan palm.\",\n                            \"link\": {\n                                \"url\": \"https://en.wikipedia.org/wiki/Lacinato_kale\"\n                            }\n                        },\n                        \"href\": \"https://en.wikipedia.org/wiki/Lacinato_kale\"\n                    }\n                ],\n                \"color\": \"default\"\n            }\n        }\n    ]\n});\n  console.log(response);\n})();",
+                "name": "Notion SDK for JavaScript"
+              },
+              {
+                "language": "curl",
+                "code": "curl 'https://api.notion.com/v1/pages' \\\n  -H 'Authorization: Bearer '\"$NOTION_API_KEY\"'' \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Notion-Version: 2022-06-28\" \\\n  --data '{\n\t\"parent\": { \"database_id\": \"d9824bdc84454327be8b5b47500af6ce\" },\n  \"icon\": {\n  \t\"emoji\": \"🥬\"\n  },\n\t\"cover\": {\n\t\t\"external\": {\n\t\t\t\"url\": \"https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg\"\n\t\t}\n\t},\n\t\"properties\": {\n\t\t\"Name\": {\n\t\t\t\"title\": [\n\t\t\t\t{\n\t\t\t\t\t\"text\": {\n\t\t\t\t\t\t\"content\": \"Tuscan Kale\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t\"Description\": {\n\t\t\t\"rich_text\": [\n\t\t\t\t{\n\t\t\t\t\t\"text\": {\n\t\t\t\t\t\t\"content\": \"A dark green leafy vegetable\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t\"Food group\": {\n\t\t\t\"select\": {\n\t\t\t\t\"name\": \"Vegetable\"\n\t\t\t}\n\t\t},\n\t\t\"Price\": { \"number\": 2.5 }\n\t},\n\t\"children\": [\n\t\t{\n\t\t\t\"object\": \"block\",\n\t\t\t\"type\": \"heading_2\",\n\t\t\t\"heading_2\": {\n\t\t\t\t\"rich_text\": [{ \"type\": \"text\", \"text\": { \"content\": \"Lacinato kale\" } }]\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"object\": \"block\",\n\t\t\t\"type\": \"paragraph\",\n\t\t\t\"paragraph\": {\n\t\t\t\t\"rich_text\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\t\"text\": {\n\t\t\t\t\t\t\t\"content\": \"Lacinato kale is a variety of kale with a long tradition in Italian cuisine, especially that of Tuscany. It is also known as Tuscan kale, Italian kale, dinosaur kale, kale, flat back kale, palm tree kale, or black Tuscan palm.\",\n\t\t\t\t\t\t\t\"link\": { \"url\": \"https://en.wikipedia.org/wiki/Lacinato_kale\" }\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t]\n}'"
+              }
+            ],
+            "samples-languages": ["javascript", "curl"]
+          }
+        }
+      }
+    },
+    "x-readme": {
+      "headers": [],
+      "explorer-enabled": false,
+      "proxy-enabled": true,
+      "samples-enabled": true
+    },
+    "x-readme-fauxas": true,
+    "_id": "606ecc2cd9e93b0044cf6e47:611ffc19e9237200478c6943"
+  },
+  "oasPublicUrl": "@notionapi/v1#5smt2llerjspp2",
+  "oauth": false,
+  "loginUrl": "https://dash.readme.com/to/notion-group",
+  "suggestedEdits": true
+}
