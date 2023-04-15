@@ -7,7 +7,7 @@ const DISCORD_PROFILE_PICTURE =
 const DISCORD_USERNAME = "FlyDocs";
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (req, res) => {
+export default async (req, res) => {
   // If Post
   if (req.method === "POST") {
     // Extract the message from the request body
@@ -16,7 +16,7 @@ export default (req, res) => {
     // Post a message to Discord Webhook
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
-    axios.post(webhookUrl, {
+    const res = await axios.post(webhookUrl, {
       avatar_url: DISCORD_PROFILE_PICTURE,
       username: DISCORD_USERNAME,
       content: message,
