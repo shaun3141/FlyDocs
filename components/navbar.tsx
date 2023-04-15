@@ -58,7 +58,7 @@ export default function Navbar(props: Props) {
             fontFamily: nav_text.style,
           }}
         >
-          <span style={{ color: "red" }}>Fly</span>Docs
+          <span style={{ color: "#08D2EA" }}>Fly</span>Docs
         </Typography>
       </Link>
       <Divider />
@@ -119,7 +119,7 @@ export default function Navbar(props: Props) {
                 fontSize: "2.5rem",
               }}
             >
-              <span style={{ color: "red" }}>Fly</span>Docs
+              <span style={{ color: "#08D2EA" }}>Fly</span>Docs
             </Typography>
           </Link>
 
@@ -144,7 +144,7 @@ export default function Navbar(props: Props) {
               }}
               passHref
             >
-              <span style={{ color: "red" }}>Fly</span>Docs
+              <span style={{ color: "#08D2EA" }}>Fly</span>Docs
             </Link>
           </Typography>
 

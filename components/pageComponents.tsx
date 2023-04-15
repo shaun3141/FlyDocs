@@ -10,7 +10,7 @@ const header_text = Bebas_Neue({
 
 export const StyledHeader = styled.h1`
   font-family: ${header_text.style.fontFamily};
-  color: red;
+  color: #08d2ea;
   text-align: center;
 `;
 export const FeatureHeader = styled.div`
@@ -26,7 +26,11 @@ export const Feature = function (props: {
     <Box sx={{ padding: "3px 10px" }}>
       {props.supported ? (
         <CheckCircleIcon
-          style={{ verticalAlign: "middle", marginRight: "10px", color: "red" }}
+          style={{
+            verticalAlign: "middle",
+            marginRight: "10px",
+            color: "#08D2EA",
+          }}
         />
       ) : (
         <CancelIcon style={{ verticalAlign: "middle", marginRight: "10px" }} />
