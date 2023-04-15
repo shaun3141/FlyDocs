@@ -181,9 +181,9 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.center}>
-            <div className={styles.cloudform}>
+            <div className={styles.cloudform} style={{width: "100%"}}>
               <form onSubmit={handleSubmit}>
-                <textarea
+                <textarea style={{width: "100%"}}
                   disabled={loading}
                   onKeyDown={handleEnter}
                   ref={textAreaRef}
