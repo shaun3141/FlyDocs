@@ -49,7 +49,7 @@ export default function Home() {
     },
     {
       name: "Google Calendar",
-      integrationKey: "google calendar",
+      integrationKey: "google-calendar",
       description: "Schedule meetings with your team",
       image: "/GoogleCal.png",
       link: "https://www.google.com/calendar",
