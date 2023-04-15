@@ -32,14 +32,6 @@ export default function Home() {
   const [currentUserToken, setCurrentUserToken] = useState(null);
   const [integrations, setIntegrations] = useState([
     {
-      name: "Twilio",
-      integrationKey: "twilio",
-      description: "send an sms",
-      image: "/twilio.png",
-      link: "https://www.twilio.com/",
-      token: "",
-    },
-    {
       name: "Spotify",
       integrationKey: "spotify",
       description: "Listen to music",
@@ -84,6 +76,15 @@ export default function Home() {
       token: "",
       useNango: false,
     },
+    {
+      name: "Discord",
+      integrationKey: "discord",
+      description: "Send a message to a Discord Channel",
+      image: "/discord-512.webp",
+      link: "https://www.intercom.com/",
+      token: "",
+      useNango: false,
+    },
   ]);
 
   const messageListRef = useRef(null);
@@ -118,6 +119,18 @@ export default function Home() {
     e.preventDefault();
 
     if (userInput.trim() === "") {
+      return;
+    }
+
+    if (currentIntegration === null) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          message:
+            "Awesome idea - but please select an integration to use first!",
+          type: "apiMessage",
+        },
+      ]);
       return;
     }
 
@@ -157,7 +170,7 @@ export default function Home() {
       body: JSON.stringify({
         command: userInput,
         token: access_token,
-        service: currentIntegration.integrationKey,
+        service: currentIntegration?.integrationKey,
       }),
     });
 
@@ -258,6 +271,11 @@ export default function Home() {
         />
         <Button
           variant="contained"
+          color={
+            props.integration.name === currentIntegration?.name
+              ? "secondary"
+              : "primary"
+          }
           sx={{ marginLeft: "15px" }}
           onClick={() => triggerAuth(props.integration)}
         >
