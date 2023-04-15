@@ -128,12 +128,13 @@ export default function Home() {
     ]);
 
     let access_token;
+    console.log(currentIntegration);
     if (currentIntegration.name === "intercom") {
       // Somehting
       access_token = "";
-    } else if (currentIntegration.name === "twilio") {
+    } else if (currentIntegration.name === "Twilio") {
       // Something
-      access_token = `${process.env.TWILIO_API_KEY}`;
+      access_token = "";
     } else {
       const nango = new NangoNode({
         secretKey: "4a7f6f02-c9aa-4b14-b644-c833ec07bbfd",
