@@ -31,7 +31,7 @@ interface Props {
 const drawerWidth = 240;
 const navItems = [
   { name: "Demo", url: "/demo", openInNewTab: false },
-  { name: "Coolness", url: "/security", openInNewTab: false },
+  { name: "Coolness", url: "/security", openInNewTab: false, color: "white" },
 ];
 
 export default function Navbar(props: Props) {
@@ -159,6 +159,7 @@ export default function Navbar(props: Props) {
                     textDecoration: "none",
                     color: item.color || "inherit",
                   }}
+                  passHref
                 >
                   <Button
                     sx={{

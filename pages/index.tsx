@@ -10,12 +10,11 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
-import Nango  from '@nangohq/frontend';
-import { Nango as NangoNode } from '@nangohq/node';
+import Nango from "@nangohq/frontend";
+import { Nango as NangoNode } from "@nangohq/node";
 import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 import styled from "@emotion/styled";
-
 
 export default function Home() {
   const [userInput, setUserInput] = useState("");
@@ -62,7 +61,7 @@ export default function Home() {
       description: "Chat with your customers",
       image: "/intercom.png",
       link: "https://www.intercom.com/",
-      token: ""
+      token: "",
     },
   ]);
 
@@ -107,10 +106,15 @@ export default function Home() {
       { message: userInput, type: "userMessage" },
     ]);
 
-    const nango = new NangoNode({ secretKey: '4a7f6f02-c9aa-4b14-b644-c833ec07bbfd' });
+    const nango = new NangoNode({
+      secretKey: "4a7f6f02-c9aa-4b14-b644-c833ec07bbfd",
+    });
 
-    let access_token = await nango.getToken(currentResult.providerConfigKey, currentResult.connectionId);
-    access_token = `Bearer ${access_token}`
+    let access_token = await nango.getToken(
+      currentResult.providerConfigKey,
+      currentResult.connectionId
+    );
+    access_token = `Bearer ${access_token}`;
 
     // Send user question and history to API
     // currently fails because of github token max length issue :/
@@ -141,20 +145,29 @@ export default function Home() {
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { message: data.result  , type: "apiMessage" },
+      { message: data.result, type: "apiMessage" },
     ]);
     setLoading(false);
   };
 
   const triggerAuth = async (integration) => {
-      let nango = new Nango({ publicKey: "defb0e4d-fca5-4e26-b7d9-d5b59dd72d66"});
-      nango.auth(integration.integrationKey, 'test-connection-id').then(async (result: { providerConfigKey: string; connectionId: string }) => {
-      setCurrentIntegration(integration)
-      setCurrentResult(result)
-    }).catch((err: { message: string; type: string }) => {
-      console.error(`There was an error in the OAuth flow for integration: ${err.message}`);
+    let nango = new Nango({
+      publicKey: "defb0e4d-fca5-4e26-b7d9-d5b59dd72d66",
     });
-  }
+    nango
+      .auth(integration.integrationKey, "test-connection-id")
+      .then(
+        async (result: { providerConfigKey: string; connectionId: string }) => {
+          setCurrentIntegration(integration);
+          setCurrentResult(result);
+        }
+      )
+      .catch((err: { message: string; type: string }) => {
+        console.error(
+          `There was an error in the OAuth flow for integration: ${err.message}`
+        );
+      });
+  };
 
   // Prevent blank submissions and allow for multiline input
   const handleEnter = (e) => {
@@ -187,7 +200,10 @@ export default function Home() {
     border-radius: 10px;
   `;
 
-  const Integration = function (props: { integration: any, triggerAuth: (integration: any) => void }) {
+  const Integration = function (props: {
+    integration: any;
+    triggerAuth: (integration: any) => void;
+  }) {
     return (
       <Box
         sx={{
@@ -225,7 +241,13 @@ export default function Home() {
         <ContentWrapper>
           <Typography variant="h5">Integrations</Typography>
           {integrations.map((integration, idx) => {
-            return <Integration key={idx} integration={integration} triggerAuth={triggerAuth} />;
+            return (
+              <Integration
+                key={idx}
+                integration={integration}
+                triggerAuth={triggerAuth}
+              />
+            );
           })}
         </ContentWrapper>
       </Grid>
@@ -290,7 +312,6 @@ export default function Home() {
                 autoFocus={false}
                 rows={1}
                 maxLength={512}
-                type="text"
                 id="userInput"
                 name="userInput"
                 placeholder={
