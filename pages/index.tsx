@@ -142,13 +142,11 @@ export default function Home() {
 
     let access_token;
     console.log(currentIntegration);
-    if (currentIntegration.name === "intercom") {
+    if (currentIntegration.useNango == false) {
       // Somehting
       access_token = "";
-    } else if (currentIntegration.name === "Twilio") {
-      // Something
-      access_token = "";
-    } else {
+    }
+    else {
       const nango = new NangoNode({
         secretKey: "4a7f6f02-c9aa-4b14-b644-c833ec07bbfd",
       });
@@ -316,12 +314,12 @@ export default function Home() {
                   key={index}
                   className={
                     message.type === "userMessage" &&
-                    loading &&
-                    index === messages.length - 1
+                      loading &&
+                      index === messages.length - 1
                       ? styles.usermessagewaiting
                       : message.type === "apiMessage"
-                      ? styles.apimessage
-                      : styles.usermessage
+                        ? styles.apimessage
+                        : styles.usermessage
                   }
                 >
                   {/* Display the correct icon depending on the message type */}
