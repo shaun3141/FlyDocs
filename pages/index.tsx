@@ -33,21 +33,32 @@ export default function Home() {
   const [currentUserToken, setCurrentUserToken] = useState(null);
   const [integrations, setIntegrations] = useState([
     {
+      name: "Spotify",
+      integrationKey: "spotify",
+      description: "Listen to music",
+      image: "/spotify.png",
+      link: "https://www.spotify.com/",
+      token: "",
+    },
+    {
       name: "Github",
+      integrationKey: "github",
       description: "Code hosting, version control and collaboration",
       image: "/github_white.png",
       link: "https://www.github.com/",
-      token: "defb0e4d-fca5-4e26-b7d9-d5b59dd72d66",
+      token: "",
     },
     {
       name: "Google Calendar",
+      integrationKey: "google calendar",
       description: "Schedule meetings with your team",
       image: "/GoogleCal.png",
       link: "https://www.google.com/calendar",
       token: "",
     },
     {
-      name: "intercom",
+      name: "Intercom",
+      integrationKey: "intercom",
       description: "Chat with your customers",
       image: "/intercom.png",
       link: "https://www.intercom.com/",
@@ -96,11 +107,10 @@ export default function Home() {
       { message: userInput, type: "userMessage" },
     ]);
 
-    console.log(currentResult)
     const nango = new NangoNode({ secretKey: '4a7f6f02-c9aa-4b14-b644-c833ec07bbfd' });
 
     let access_token = await nango.getToken(currentResult.providerConfigKey, currentResult.connectionId);
-    console.log(access_token)
+    access_token = `Bearer ${access_token}`
 
     // Send user question and history to API
     // currently fails because of github token max length issue :/
@@ -112,7 +122,7 @@ export default function Home() {
       body: JSON.stringify({
         command: userInput,
         token: access_token,
-        service: currentIntegration.name,
+        service: currentIntegration.integrationKey,
       }),
     });
 
@@ -124,7 +134,6 @@ export default function Home() {
     // Reset user input
     setUserInput("");
     const data = await response.json();
-
     if (data.result.error === "Unauthorized") {
       handleError();
       return;
@@ -132,17 +141,16 @@ export default function Home() {
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { message: data.result.success, type: "apiMessage" },
+      { message: data.result  , type: "apiMessage" },
     ]);
     setLoading(false);
   };
 
   const triggerAuth = async (integration) => {
-      let nango = new Nango({ publicKey: integration.token });
-      nango.auth('github', 'test-connection-id').then(async (result: { providerConfigKey: string; connectionId: string }) => {
+      let nango = new Nango({ publicKey: "defb0e4d-fca5-4e26-b7d9-d5b59dd72d66"});
+      nango.auth(integration.integrationKey, 'test-connection-id').then(async (result: { providerConfigKey: string; connectionId: string }) => {
       setCurrentIntegration(integration)
       setCurrentResult(result)
-      console.log(`OAuth flow succeeded for provider "${result.providerConfigKey}" and connection-id "${result.connectionId}"!`);
     }).catch((err: { message: string; type: string }) => {
       console.error(`There was an error in the OAuth flow for integration: ${err.message}`);
     });
